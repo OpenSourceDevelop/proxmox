@@ -41,7 +41,7 @@ echo -e "${TAB3}1) Portainer (Klassisch)"
 echo -e "${TAB3}2) Arcane (Modern) [Standard]"
 echo -e "${TAB3}3) Keine (Nur Docker)"
 read -p "${TAB3}Auswahl [1-3] (Default 2): " ui_choice
-ui_choice=${ui_choice:-2} # Setzt 2 als Default, wenn Eingabe leer ist
+ui_choice=${ui_choice:-2} # Setzt 2 als Default
 
 case "$ui_choice" in
   1)
