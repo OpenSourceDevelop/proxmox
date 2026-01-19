@@ -4,8 +4,8 @@ Eine Sammlung von optimierten Helper-Skripten für Proxmox LXC Container.
 
 ## Verfügbare Skripte
 
-### 🐳 Docker & Dashboards (Portainer/Arcane)
-Installiert Docker (Latest) inkl. Compose und wahlweise Portainer oder Arcane als Management-UI.
+### 🐳 Docker & Dashboards (Arcane/Portainer)
+Installiert Docker (Latest) inkl. Compose und wahlweise Arcane (Default) oder Portainer als Management-UI.
 
 **Ausführen in der LXC-Konsole:**
 ```bash
