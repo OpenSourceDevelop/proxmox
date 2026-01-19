@@ -1,11 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2021-2026 tteck
-# Author: tteck (tteckster)
-# License: MIT
-# Source: https://www.docker.com/
-
-# Diese Variablen werden normalerweise vom Proxmox Helper-Skript Framework übergeben
+# Docker & Arcane Helper for Proxmox LXC
 source /dev/stdin <<<"$FUNCTIONS_FILE_PATH"
 color
 verb_ip6
@@ -14,7 +9,23 @@ setting_up_container
 network_check
 update_os
 
-# Versionen abrufen
+# --- NEU: LXC FEATURE CHECK ---
+msg_info "Checking LXC Features"
+NESTING_CHECK=$(grep -q "overlay" /proc/filesystems && echo "OK" || echo "FAIL")
+if [ "$NESTING_CHECK" == "FAIL" ]; then
+  msg_warn "ACHTUNG: 'Nesting' ist nicht aktiviert!"
+  msg_warn "Docker benötigt Nesting, um korrekt zu funktionieren."
+  echo -e "${TAB3}Bitte in den Proxmox-Optionen des LXC unter 'Features' aktivieren."
+  read -r -p "${TAB3}Trotzdem fortfahren? (y/N): " proceed
+  if [[ ! ${proceed,,} =~ ^(y|yes)$ ]]; then
+    msg_error "Installation abgebrochen."
+    exit 1
+  fi
+else
+  msg_ok "LXC Nesting Check bestanden."
+fi
+# ------------------------------
+
 DOCKER_LATEST_VERSION=$(get_latest_github_release "moby/moby")
 ARCANE_LATEST_VERSION=$(get_latest_github_release "getarcaneapp/arcane")
 
