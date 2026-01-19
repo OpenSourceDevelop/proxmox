@@ -2,7 +2,7 @@
 
 # --- 1. Host-Check: Wenn auf PVE ausgeführt, baue LXC ---
 if [[ -z "$FUNCTIONS_FILE_PATH" ]]; then
-  # Variablen für das tteck-Framework
+  # Variablen für das Proxmox-Script Framework
   APP="Docker-Arcane"
   var_disk="8"
   var_cpu="2"
@@ -11,20 +11,20 @@ if [[ -z "$FUNCTIONS_FILE_PATH" ]]; then
   var_version="12"
   
   echo "Lade Proxmox-Helper Framework..."
-  # Wir nutzen hier den stabilen Pfad für den Build-Prozess
-  source <(curl -sL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.sh)
+  # KORRIGIERTER PFAD ZU BUILD.SH
+  source <(curl -sL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/build.sh)
   
   function build_container() {
     build_container
   }
   
-  # Dieser Pfad muss exakt auf DEINE Datei zeigen
+  # KORRIGIERTE PFADE FÜR INSTALLATION
   export FUNCTIONS_FILE_PATH="https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/functions.sh"
   export INSTALL_SCRIPT="https://raw.githubusercontent.com/OpenSourceDevelop/proxmox/main/DockerArcane.sh"
   
   echo "Starte LXC Setup..."
-  # Wir nutzen den offiziellen Install-Trigger
-  bash -c "$(wget -qLO - https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/install.sh)"
+  # KORRIGIERTER PFAD ZU INSTALL.SH
+  bash -c "$(wget -qLO - https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/install.sh)"
   exit
 fi
 
@@ -54,7 +54,7 @@ case "$ui_choice" in
   2)
     msg_info "Installing Arcane"
     mkdir -p /opt/arcane/data /opt/arcane/projects
-    IP_ADDR=$(hostname -I | awk '{print $1 || "IP-ADDR"}')
+    IP_ADDR=$(hostname -I | awk '{print $1}')
     $STD docker run -d --name arcane --restart unless-stopped -p 3552:3552 -v /var/run/docker.sock:/var/run/docker.sock -v /opt/arcane/data:/app/data -v /opt/arcane/projects:/app/data/projects -e APP_URL="http://${IP_ADDR}:3552" -e ENCRYPTION_KEY=$(openssl rand -hex 32) -e JWT_SECRET=$(openssl rand -hex 32) -e TZ="Europe/Berlin" ghcr.io/getarcaneapp/arcane:latest
     ;;
 esac
