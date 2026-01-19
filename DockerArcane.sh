@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-# --- 1. Host-Check: Wenn auf PVE ausgeführt, baue LXC ---
+# --- 1. Host-Check: Wenn auf PVE (Proxmox) ausgeführt ---
 if [[ -z "$FUNCTIONS_FILE_PATH" ]]; then
   echo "Vorbereitung der LXC-Erstellung..."
   
-  # Variablen für das Proxmox-Framework
+  # Variablen für das Framework
   export APP="Docker-Arcane"
   export var_disk="8"
   export var_cpu="2"
@@ -13,17 +13,17 @@ if [[ -z "$FUNCTIONS_FILE_PATH" ]]; then
   export var_version="12"
   export NSAPP="dockerarcane"
   
-  # Pfade für die Installation
+  # WICHTIG: Pfade für die Installation (Diese sind aktuell und stabil)
   export FUNCTIONS_FILE_PATH="https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/functions.sh"
   export INSTALL_SCRIPT="https://raw.githubusercontent.com/OpenSourceDevelop/proxmox/main/DockerArcane.sh"
 
   echo "Starte Proxmox LXC Setup..."
-  # Wir rufen den Installer direkt auf, ohne vorher build.sh zu laden
+  # Wir rufen direkt den Installer auf, das vermeidet den 404-Fehler beim Framework-Laden
   bash -c "$(wget -qLO - https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/install.sh)"
   exit
 fi
 
-# --- 2. Installation IM Container ---
+# --- 2. Installation IM Container (wird erst nach LXC-Erstellung aktiv) ---
 source /dev/stdin <<<"$FUNCTIONS_FILE_PATH"
 color
 verb_ip6
