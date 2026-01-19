@@ -9,4 +9,4 @@ Installiert Docker (Latest) inkl. Compose und wahlweise Arcane (Default) oder Po
 
 **Ausführen in der LXC-Konsole:**
 ```bash
-bash -c "$(wget -qLO - https://raw.githubusercontent.com/OpenSourceDevelop/proxmox/main/ct_docker.sh)"
+bash -c "$(wget -qLO - https://raw.githubusercontent.com/OpenSourceDevelop/proxmox/main/DockerArcane.sh)"
