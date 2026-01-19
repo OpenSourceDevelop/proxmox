@@ -17,7 +17,7 @@ function build_container() {
 
 # 3. Das eigentliche Installations-Skript (deine Logik)
 # Wir definieren hier, dass dieses Skript sich selbst als Installer aufruft
-export INSTALL_SCRIPT="https://raw.githubusercontent.com/OpenSourceDevelop/proxmox/main/DockerArcane.sh"
+export INSTALL_SCRIPT="https://raw.githubusercontent.com/OpenSourceDevelop/proxmox/main/install/DockerArcane.sh"
 
 # 4. Starte die Installation, falls wir bereits IM Container sind
 if [[ -n "$FUNCTIONS_FILE_PATH" ]]; then
