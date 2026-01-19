@@ -1,4 +1,4 @@
-# OpenSourceDevelop Proxmox Scripts
+# Proxmox Scripts
 
 Eine Sammlung von optimierten Helper-Skripten für Proxmox LXC Container.
 
