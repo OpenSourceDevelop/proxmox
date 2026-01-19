@@ -11,20 +11,21 @@ if [[ -z "$FUNCTIONS_FILE_PATH" ]]; then
   var_version="12"
   
   echo "Lade Proxmox-Helper Framework..."
-  # KORRIGIERTER PFAD ZU BUILD.SH
-  source <(curl -sL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/build.sh)
+  # Wir laden direkt die Funktionen, da build.sh oft 404 wirft
+  source <(curl -sL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/functions.sh)
   
+  # Hilfsfunktion, um den Build zu triggern
   function build_container() {
-    build_container
+    # Wir laden das Installations-Script von tteck direkt
+    bash -c "$(wget -qLO - https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/install.sh)"
   }
   
-  # KORRIGIERTE PFADE FÜR INSTALLATION
   export FUNCTIONS_FILE_PATH="https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/functions.sh"
   export INSTALL_SCRIPT="https://raw.githubusercontent.com/OpenSourceDevelop/proxmox/main/DockerArcane.sh"
   
   echo "Starte LXC Setup..."
-  # KORRIGIERTER PFAD ZU INSTALL.SH
-  bash -c "$(wget -qLO - https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/install.sh)"
+  # Direktaufruf des offiziellen Proxmox-Script Installers
+  bash -c "$(wget -qLO - https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/install.sh)"
   exit
 fi
 
