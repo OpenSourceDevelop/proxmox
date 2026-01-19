@@ -2,29 +2,23 @@
 
 # --- 1. Host-Check: Wenn auf PVE ausgeführt, baue LXC ---
 if [[ -z "$FUNCTIONS_FILE_PATH" ]]; then
-  # Variablen für das Proxmox-Script Framework
-  APP="Docker-Arcane"
-  var_disk="8"
-  var_cpu="2"
-  var_ram="2048"
-  var_os="debian"
-  var_version="12"
-  NSAPP=$(echo ${APP,,} | tr -d ' ')
-
-  echo "Lade Proxmox-Helper Framework..."
-  # Wir laden nur die Funktionen, da die build.sh im Repo verschoben wurde
-  source <(curl -sL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/functions.sh)
+  echo "Vorbereitung der LXC-Erstellung..."
   
-  # Hilfsfunktion für den neuen Installer
-  function build_container() {
-    echo "Baue Container..."
-  }
-
+  # Variablen für das Proxmox-Framework
+  export APP="Docker-Arcane"
+  export var_disk="8"
+  export var_cpu="2"
+  export var_ram="2048"
+  export var_os="debian"
+  export var_version="12"
+  export NSAPP="dockerarcane"
+  
+  # Pfade für die Installation
   export FUNCTIONS_FILE_PATH="https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/functions.sh"
   export INSTALL_SCRIPT="https://raw.githubusercontent.com/OpenSourceDevelop/proxmox/main/DockerArcane.sh"
 
-  echo "Starte LXC Setup..."
-  # Dies ist der neue, korrekte Pfad zum Container-Installer
+  echo "Starte Proxmox LXC Setup..."
+  # Wir rufen den Installer direkt auf, ohne vorher build.sh zu laden
   bash -c "$(wget -qLO - https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/install.sh)"
   exit
 fi
