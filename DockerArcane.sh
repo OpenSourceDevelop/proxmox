@@ -2,34 +2,34 @@
 
 # --- 1. Host-Check: Wenn auf PVE ausgeführt, baue LXC ---
 if [[ -z "$FUNCTIONS_FILE_PATH" ]]; then
-  # Variablen für das Proxmox-Script Framework
+  # Variablen für das neue Framework
   APP="Docker-Arcane"
   var_disk="8"
   var_cpu="2"
   var_ram="2048"
   var_os="debian"
   var_version="12"
-  
+  NSAPP=$(echo ${APP,,} | tr -d ' ')
+
   echo "Lade Proxmox-Helper Framework..."
-  # Wir laden direkt die Funktionen, da build.sh oft 404 wirft
-  source <(curl -sL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/functions.sh)
-  
-  # Hilfsfunktion, um den Build zu triggern
+  # NEUER PFAD: Das Framework wird jetzt über die install.sh/build.sh im ct Ordner geladen
+  source <(curl -sL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/build.sh)
+
+  # Diese Funktion ist für das Framework notwendig
   function build_container() {
-    # Wir laden das Installations-Script von tteck direkt
-    bash -c "$(wget -qLO - https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/install.sh)"
+    build_container
   }
-  
+
+  # Exportiere Pfade für den LXC-Teil
   export FUNCTIONS_FILE_PATH="https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/functions.sh"
   export INSTALL_SCRIPT="https://raw.githubusercontent.com/OpenSourceDevelop/proxmox/main/DockerArcane.sh"
-  
+
   echo "Starte LXC Setup..."
-  # Direktaufruf des offiziellen Proxmox-Script Installers
-  bash -c "$(wget -qLO - https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/install.sh)"
+  bash -c "$(wget -qLO - https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/install.sh)"
   exit
 fi
 
-# --- 2. Installation IM Container ---
+# --- 2. Installation IM Container (bleibt gleich) ---
 source /dev/stdin <<<"$FUNCTIONS_FILE_PATH"
 color
 verb_ip6
