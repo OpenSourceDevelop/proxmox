@@ -2,7 +2,7 @@
 
 # --- 1. Host-Check: Wenn auf PVE ausgeführt, baue LXC ---
 if [[ -z "$FUNCTIONS_FILE_PATH" ]]; then
-  # Variablen für das neue Framework
+  # Variablen für das Framework
   APP="Docker-Arcane"
   var_disk="8"
   var_cpu="2"
@@ -12,24 +12,24 @@ if [[ -z "$FUNCTIONS_FILE_PATH" ]]; then
   NSAPP=$(echo ${APP,,} | tr -d ' ')
 
   echo "Lade Proxmox-Helper Framework..."
-  # NEUER PFAD: Das Framework wird jetzt über die install.sh/build.sh im ct Ordner geladen
-  source <(curl -sL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/build.sh)
-
-  # Diese Funktion ist für das Framework notwendig
+  # Wir nutzen den absolut stabilen Pfad zu den Funktionen
+  source <(curl -sL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/functions.sh)
+  
+  # Hilfsfunktion für den Build
   function build_container() {
-    build_container
+    source <(curl -sL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/build.sh)
   }
 
-  # Exportiere Pfade für den LXC-Teil
   export FUNCTIONS_FILE_PATH="https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/functions.sh"
   export INSTALL_SCRIPT="https://raw.githubusercontent.com/OpenSourceDevelop/proxmox/main/DockerArcane.sh"
 
   echo "Starte LXC Setup..."
+  # Startet den Prozess über die offizielle Installations-Routine
   bash -c "$(wget -qLO - https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/install.sh)"
   exit
 fi
 
-# --- 2. Installation IM Container (bleibt gleich) ---
+# --- 2. Installation IM Container ---
 source /dev/stdin <<<"$FUNCTIONS_FILE_PATH"
 color
 verb_ip6
